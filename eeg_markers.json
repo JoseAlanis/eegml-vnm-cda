@@ -1,0 +1,22 @@
+{
+  "ses-1": {
+    "cda": {
+      "markers": {
+        "task_start": 10,
+        "task_end": 90,
+        "cue_left": 3,
+        "cue_right": 7,
+        "set_size_2": 21,
+        "set_size_4": 41,
+        "set_size_6": 61,
+        "retention": 50,
+        "test_2": 22,
+        "test:4" : 42,
+        "test_6" : 62,
+        "resp_same" : 77,
+        "resp_diff" : 78
+      },
+      "n_trials": 720
+    }
+  }
+}

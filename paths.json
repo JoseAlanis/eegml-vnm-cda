@@ -1,0 +1,8 @@
+{
+  "root": "/home/administrator/Documents/projects/eegml-vnm-cda/data/",
+  "sourcedata": "/home/administrator/Documents/projects/eegml-vnm-cda/data/sourcedata",
+  "bidsdata": "/home/administrator/Documents/projects/eegml-vnm-cda/data/bidsdata",
+  "derivatives": "/home/administrator/Documents/projects/eegml-vnm-cda/data/bidsdata/derivatives",
+  "relative": true,
+  "overwrite": true
+}

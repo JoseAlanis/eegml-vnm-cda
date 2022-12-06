@@ -193,6 +193,7 @@ if add_file:
                    output_path,
                    overwrite=True)
 
+# %%
 if report:
     bidsdata_report = Report(title='Subject %s' % f'{subj:03}')
     bidsdata_report.add_raw(raw=raw, title='Raw data',
@@ -207,11 +208,14 @@ if report:
     if not Path(FPATH_REPORT).exists():
         Path(FPATH_REPORT).mkdir(parents=True, exist_ok=True)
 
-    FPATH_REPORT = os.path.join(
-        FPATH_REPORT,
-        'Subj_%s_preprocessing_report.html' % f'{subj:03}')
-
     if overwrite:
         logger.info("`overwrite` is set to ``True`` ")
 
-    bidsdata_report.save(FPATH_REPORT, overwrite=overwrite, open_browser=False)
+    for rep_ext in ['hdf5', 'html']:
+        FPATH_REPORT_O = os.path.join(
+            FPATH_REPORT,
+            'Subj_%s_preprocessing_report.%s' % (f'{subj:03}', rep_ext))
+
+        bidsdata_report.save(FPATH_REPORT_O,
+                             overwrite=overwrite,
+                             open_browser=False)

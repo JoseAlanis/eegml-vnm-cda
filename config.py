@@ -153,5 +153,5 @@ montage = make_dig_montage(
 # -----------------------------------------------------------------------------
 # templates
 # import ica markers
-# with open("./ica_templates.json") as temp:
-#     ica_templates = json.load(temp)
+with open("./ica_templates.json") as temp:
+    ica_templates = json.load(temp)

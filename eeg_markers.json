@@ -1,6 +1,6 @@
 {
   "ses-1": {
-    "cda": {
+    "vogel2004": {
       "markers": {
         "task_start": 10,
         "task_end": 90,
@@ -11,8 +11,8 @@
         "set_size_6": 61,
         "retention": 50,
         "test_2": 22,
-        "test:4" : 42,
-        "test_6" : 62,
+        "test_4": 42,
+        "test_6": 62,
         "resp_same" : 77,
         "resp_diff" : 78
       },

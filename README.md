@@ -8,7 +8,7 @@ That includes all BIDS paths needed for storing the BIDS conform version of the 
 The script `set_paths.py` get you started. It will create a `paths.json` file containing the important paths (see the provided `paths.json` file for an example).
 
 - First, downloaded this repository (e.g., as .zip and unpack).
-- Second, put your data in a `data/raw` within the downloaded version of the repo.
+- Second, put your data in a `data/raw` directory within the downloaded version of the repo.
   - The file structure should look something like this:
 
 ```

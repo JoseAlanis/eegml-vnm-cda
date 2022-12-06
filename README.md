@@ -1,6 +1,22 @@
 # eegml-vnm-cda
 
+The pipeline relies on the brain imaging data structure [BIDS](https://bids-specification.readthedocs.io/en/stable/04-modality-specific-files/03-electroencephalography.html) for electroencephalography data.
+
+BIDS helps organize datasets in an intuitive and well documented manner.
+
+This analysis pipeline takes BIDS formatted data as an input. The pipeline then carries a series of standardised preprocessing and analysis steps and stores the results a BIDS compliant directory structure.
+
+Your data needs to be in BIDS format ([see below](##-1.-Put-data-in-an-BIDS-compliant-directory-structure) for details on how to make a BIDS dataset) for the pipeline to run.
+
+If you already have your data in BIDS format then you can go to [2. Preprocessing and analysis](##-2.-Preprocessing-and-analysis).
+
+## Analysis scripts
+
 The pipeline has multiple scrips (e.g., `00_restructure_eeg_data_directory.py`). The numbers at the beginning of the file name show the order in which they should be run.
+
+The files `00_restructure_eeg_data_directory.py` and `01_data_to_bids.py` can be used to turn an (ordinary) dataset into a BIDS dataset.
+
+## 1. Put data in a BIDS compliant directory structure
 
 You'll need to create the paths for the project.
 That includes all BIDS paths needed for storing the BIDS conform version of the data.
@@ -47,3 +63,39 @@ done
 - Forth, run the `01_data_to_bids.py`. The script will create all a `bidsdata/` derectory containing all EEG-Files in an EEG-BIDS compliant dataset structure.
 
 The structure of the pipeline is inspired by [Stefan Appelhoff's](https://github.com/sappelhoff) EEG analysis [repository](https://github.com/sappelhoff/eeg_manypipes_arc).
+
+## 2. Preprocessing and analysis
+
+File `02_run_preprocessing.py` takes the BIDS formatted data and runs a minimal preprocessing pipeline.
+- Discard pauses between blocks and resting state.
+- Filter (0.1 - 40 Hz) + periodic notch filter (50 Hz, 100 Hz)
+- Infomax ICA + standardised removal of artefact components (based on correlation with EOG component templates)
+
+File `03_subject_level_erps.py`
+- Segment data around set size markers (rejects epochs with amplitudes > 150 micro-volt)
+- Make ERP figures
+
+Setting the argument `--report=True` will create a small html-report for the subject (see below).
+
+```shell
+for i in 77 99
+do
+    python 03_subject_level_erps.py \
+        --subj=$i \
+        --report=True \
+        --overwrite=True
+done
+```
+
+## Requirements
+
+You'll need the following packages:
+
+```
+mne:              1.1.1
+numpy:            1.22.4
+scipy:            1.8.1
+matplotlib:       3.5.2
+mne_bids:         0.10
+mne_qt_browser:   0.3.1
+```

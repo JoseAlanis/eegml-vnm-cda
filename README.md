@@ -6,9 +6,9 @@ BIDS helps organize datasets in an intuitive and well documented manner.
 
 This analysis pipeline takes BIDS formatted data as an input. The pipeline then carries a series of standardised preprocessing and analysis steps and stores the results a BIDS compliant directory structure.
 
-Your data needs to be in BIDS format ([see below](#1.-Put-data-in-an-BIDS-compliant-directory-structure) for details on how to make a BIDS dataset) for the pipeline to run.
+Your data needs to be in BIDS format ([see below](#1-put-data-in-a-bids-compliant-directory-structure) for details on how to make a BIDS dataset) for the pipeline to run.
 
-If you already have your data in BIDS format then you can go to [2. Preprocessing and analysis](#2.-Preprocessing-and-analysis).
+If you already have your data in BIDS format then you can go to [2. Preprocessing and analysis](#2-preprocessing-and-analysis).
 
 ## Analysis scripts
 

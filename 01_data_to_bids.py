@@ -176,7 +176,7 @@ if add_file:
     raw.set_montage(montage)
     # create bids path
     output_path = BIDSPath(subject=f'{subj:03}',
-                           task='multiple',
+                           task='vogel2004',
                            session=str(session),
                            run=int(run),
                            datatype='eeg',

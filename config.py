@@ -129,6 +129,10 @@ EOG_COMPONENTS_NOT_FOUND_MSG = "No {type} ICA components found; subject {subj}"
 # -----------------------------------------------------------------------------
 # eeg parameters
 
+# import eeg markers
+with open("./eeg_markers.json") as eeg_markers:
+    eeg_markers = json.load(eeg_markers)
+
 # create eeg montage (old)
 # montage = _read_theta_phi_in_degrees('./sensors/easycap-M7.txt',
 #                                      head_size=0.1,

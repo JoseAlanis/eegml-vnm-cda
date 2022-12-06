@@ -14,19 +14,23 @@ License: BSD (3-clause)
 import sys
 import os
 
+from pathlib import Path
+
 import re
 
 from mne.io import read_raw_brainvision
 from mne.utils import logger
+from mne import Report
 
 from mne_bids import BIDSPath, write_raw_bids
 
 from config import (
     FPATH_DATA_SOURCEDATA,
-    FNAME_SOURCEDATA_PILOTS,
     FPATH_DATA_BIDS,
+    FPATH_DATA_DERIVATIVES,
     FPATH_SOURCEDATA_NOT_FOUND_MSG,
     FNAME_SOURCEDATA_TEMPLATE,
+    FNAME_SOURCEDATA_PILOTS,
     SUBJECT_IDS,
     CHECK_SUBJECTS_SES_01,
     montage
@@ -40,6 +44,7 @@ subj = 1
 session = 1
 overwrite = False
 ext = '.vhdr'
+report = False
 
 # %%
 # When not in an IPython session, get command line inputs
@@ -49,6 +54,7 @@ if not hasattr(sys, "ps1"):
         sub=subj,
         session=session,
         overwrite=overwrite,
+        report=report
     )
 
     defaults = parse_overwrite(defaults)
@@ -56,6 +62,7 @@ if not hasattr(sys, "ps1"):
     subj = defaults["sub"]
     session = defaults["session"]
     overwrite = defaults["overwrite"]
+    report = defaults["report"]
 
 # %%
 # paths and overwrite settings
@@ -125,7 +132,7 @@ raw.set_montage(montage)
 # create bids path
 run = 1
 output_path = BIDSPath(subject=f'{subj:03}',
-                       task='multiple',
+                       task='vogel2004',
                        session=str(session),
                        run=run,
                        datatype='eeg',
@@ -185,3 +192,26 @@ if add_file:
     write_raw_bids(raw,
                    output_path,
                    overwrite=True)
+
+if report:
+    bidsdata_report = Report(title='Subject %s' % f'{subj:03}')
+    bidsdata_report.add_raw(raw=raw, title='Raw data',
+                            butterfly=False,
+                            # scalings=dict(eeg=100e-6, eog=100e-6),
+                            psd=True)
+
+    FPATH_REPORT = os.path.join(FPATH_DATA_DERIVATIVES,
+                                      'report',
+                                      'sub-%s' % f'{subj:03}')
+
+    if not Path(FPATH_REPORT).exists():
+        Path(FPATH_REPORT).mkdir(parents=True, exist_ok=True)
+
+    FPATH_REPORT = os.path.join(
+        FPATH_REPORT,
+        'Subj_%s_preprocessing_report.html' % f'{subj:03}')
+
+    if overwrite:
+        logger.info("`overwrite` is set to ``True`` ")
+
+    bidsdata_report.save(FPATH_REPORT, overwrite=overwrite, open_browser=False)

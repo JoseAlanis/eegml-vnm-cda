@@ -126,4 +126,4 @@ if Path(fname_raw).exists():
 
     for raw, sourcedata in zip(fnames_raw, fnames_sourcedata):
         print(raw, ' -> ',  sourcedata)
-        shutil.move(raw, sourcedata)
+        shutil.copy(raw, sourcedata)

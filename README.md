@@ -62,8 +62,6 @@ done
 
 - Forth, run the `01_data_to_bids.py`. The script will create all a `bidsdata/` derectory containing all EEG-Files in an EEG-BIDS compliant dataset structure.
 
-The structure of the pipeline is inspired by [Stefan Appelhoff's](https://github.com/sappelhoff) EEG analysis [repository](https://github.com/sappelhoff/eeg_manypipes_arc).
-
 ## 2. Preprocessing and analysis
 
 File `02_run_preprocessing.py` takes the BIDS formatted data and runs a minimal preprocessing pipeline.
@@ -99,3 +97,5 @@ matplotlib:       3.5.2
 mne_bids:         0.10
 mne_qt_browser:   0.3.1
 ```
+
+The structure of the pipeline is inspired by [Stefan Appelhoff's](https://github.com/sappelhoff) EEG analysis [repository](https://github.com/sappelhoff/eeg_manypipes_arc).

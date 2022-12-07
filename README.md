@@ -1,6 +1,6 @@
 # eegml-vnm-cda
 
-The pipeline relies on the brain imaging data structure [BIDS](https://bids-specification.readthedocs.io/en/stable/04-modality-specific-files/03-electroencephalography.html) for electroencephalography data.
+The pipeline relies on the brain imaging data structure ([BIDS](https://bids-specification.readthedocs.io/en/stable/04-modality-specific-files/03-electroencephalography.html)) for electroencephalography data.
 
 BIDS helps organize datasets in an intuitive and well documented manner.
 
@@ -21,7 +21,7 @@ The files `00_restructure_eeg_data_directory.py` and `01_data_to_bids.py` can be
 You'll need to create the paths for the project.
 That includes all BIDS paths needed for storing the BIDS conform version of the data.
 
-The script `set_paths.py` get you started. It will create a `paths.json` file containing the important paths (see the provided `paths.json` file for an example).
+The script `set_paths.py` will get you started. It will create a `paths.json` file containing the important paths (see the provided `paths.json` file for an example).
 
 - First, downloaded this repository (e.g., as .zip and unpack).
 - Second, put your data in a `data/raw` directory within the downloaded version of the repo.

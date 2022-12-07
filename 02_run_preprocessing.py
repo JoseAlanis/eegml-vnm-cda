@@ -53,6 +53,7 @@ subj = 1
 session = 1
 overwrite = False
 report = False
+jobs = 1
 
 # %%
 # When not in an IPython session, get command line inputs
@@ -62,7 +63,8 @@ if not hasattr(sys, "ps1"):
         sub=subj,
         session=session,
         overwrite=overwrite,
-        report=report
+        report=report,
+        jobs=jobs
     )
 
     defaults = parse_overwrite(defaults)
@@ -71,6 +73,7 @@ if not hasattr(sys, "ps1"):
     session = defaults["session"]
     overwrite = defaults["overwrite"]
     report = defaults["report"]
+    jobs = defaults["jobs"]
 
 # %%
 # paths and overwrite settings
@@ -237,7 +240,7 @@ raw_task = raw_task.filter(l_freq=0.1, h_freq=40.0,
                            phase='zero',
                            fir_window='hamming',
                            fir_design='firwin',
-                           n_jobs=8)
+                           n_jobs=jobs)
 
 # # %%
 # # make a copy of the data in question
@@ -292,24 +295,24 @@ del raw_task
 
 # apply notch filter (50Hz)
 line_noise = [50., 100.]
-clean_raw = clean_raw.notch_filter(freqs=line_noise, n_jobs=8)
+clean_raw = clean_raw.notch_filter(freqs=line_noise, n_jobs=jobs)
 
 # %%
 # prepare ICA
 
-# filter data to remove drifts
-raw_filt = clean_raw.copy().filter(l_freq=1.0, h_freq=None, n_jobs=8)
-
 # set ICA parameters
 method = 'infomax'
-fit_params=dict(extended=True)
+fit_params = dict(extended=True)
 reject = dict(eeg=250e-6)
 ica = ICA(n_components=0.951,
           method=method,
           fit_params=fit_params)
 
-# run ICA
-ica.fit(raw_filt,
+# run ICA:
+# - filter data to remove drifts
+# - only use every 2nd sample
+ica.fit(clean_raw.copy().filter(l_freq=1.0, h_freq=None, n_jobs=jobs),
+        decim=2,
         reject=reject,
         reject_by_annotation=True)
 
@@ -406,8 +409,10 @@ if report:
     plt.close('all')
 
     bidsdata_report.add_figure(
-        fig=fig, title='ICA cleaning',
-        caption='Identified EOG components: %s' % ', '.join(str(x) for x in bad_components),
+        fig=fig,
+        title='ICA cleaning',
+        caption='Identified EOG components: %s' % ', '.join(
+            str(x) for x in bad_components),
         image_format='PNG'
     )
 
@@ -422,4 +427,3 @@ if report:
         bidsdata_report.save(FPATH_REPORT_O,
                              overwrite=overwrite,
                              open_browser=False)
-

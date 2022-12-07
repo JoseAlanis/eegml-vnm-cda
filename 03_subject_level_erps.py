@@ -37,11 +37,6 @@ from config import (
 
 from utils import parse_overwrite
 
-from fooof import FOOOF
-from scipy.stats import linregress
-import antropy as ant
-import neurokit2 as nk
-
 # %%
 # default settings (use subject 1, don't overwrite output files)
 subj = 1
@@ -115,6 +110,9 @@ if not os.path.exists(FPATH_PREPROCESSED):
 raw = read_raw_fif(FPATH_PREPROCESSED)
 raw.load_data()
 
+# add mastoid reference
+raw.set_eeg_reference(['29', '28'])
+
 # only keep eeg channels
 raw.pick_types(eeg=True)
 # sampling rate
@@ -158,15 +156,18 @@ set_2 = set_epochs['set_size_2'].copy().apply_baseline((-0.35, -0.05)).average()
 set_4 = set_epochs['set_size_4'].copy().apply_baseline((-0.35, -0.05)).average()
 set_6 = set_epochs['set_size_6'].copy().apply_baseline((-0.35, -0.05)).average()
 
+channels = ['15', '16', '25',
+            '45', '46', '55']
 fig, ax = plt.subplots(1, 1, figsize=(16, 8))
 plot_compare_evokeds({'Set size 2': set_2,
                       'Set size 4': set_4,
                       'Set size 6': set_6,},
-                     picks=['47', '54'],
+                     picks=channels,
                      combine='mean',
                      ylim=dict(eeg=[-10, 10]),
                      invert_y=True,
-                     title='Channels 47, and 54',
+                     title='Channels %s' % ', '.join(
+                         str(x) for x in channels),
                      axes=ax,
                      show=False)
 plt.close('all')
@@ -186,6 +187,7 @@ if report:
     bidsdata_report.add_figure(
         fig=fig,
         title='Set size ERPs',
+        section='epochs',
         image_format='PNG'
     )
 

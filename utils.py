@@ -11,6 +11,7 @@ from mne.utils import logger
 @click.option("--overwrite", default=False, type=bool, help="Overwrite?")
 @click.option("--interactive", default=False, type=bool, help="Interactive?")
 @click.option("--report", default=False, type=bool, help="Generate HTML-report?")
+@click.option("--jobs", default=1, type=int, help="The number of hobs to run in parallel")
 def get_inputs(
         subj,
         session,
@@ -18,6 +19,7 @@ def get_inputs(
         overwrite,
         interactive,
         report,
+        jobs
 ):
     """Parse inputs in case script is run from command line.
     See Also
@@ -31,7 +33,8 @@ def get_inputs(
         task=task,
         overwrite=overwrite,
         interactive=interactive,
-        report=report
+        report=report,
+        jobs=jobs
     )
 
     return inputs

@@ -45,6 +45,7 @@ subj = 1
 session = 1
 overwrite = False
 report = False
+jobs = 1
 
 # %%
 # When not in an IPython session, get command line inputs
@@ -151,6 +152,18 @@ set_epochs = Epochs(raw, events,
                     reject_by_annotation=True,
                     reject=dict(eeg=200e-6),
                     )
+
+# filter epochs for visualisation
+set_epochs = set_epochs.filter(l_freq=None, h_freq=40.0,
+                               picks=['eeg'],
+                               filter_length='auto',
+                               l_trans_bandwidth='auto',
+                               h_trans_bandwidth='auto',
+                               method='fir',
+                               phase='zero',
+                               fir_window='hamming',
+                               fir_design='firwin',
+                               n_jobs=jobs)
 
 # %%
 # make set size erps

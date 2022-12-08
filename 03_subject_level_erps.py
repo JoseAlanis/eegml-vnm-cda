@@ -20,6 +20,8 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
+# import numpy as np
+
 from mne.viz import plot_compare_evokeds
 from mne.utils import logger
 from mne.io import read_raw_fif
@@ -147,30 +149,49 @@ set_epochs = Epochs(raw, events,
                     baseline=None,
                     preload=True,
                     reject_by_annotation=True,
-                    reject=dict(eeg=150e-6),
+                    reject=dict(eeg=200e-6),
                     )
 
 # %%
 # make set size erps
-set_2 = set_epochs['set_size_2'].copy().apply_baseline((-0.35, -0.05)).average()
-set_4 = set_epochs['set_size_4'].copy().apply_baseline((-0.35, -0.05)).average()
-set_6 = set_epochs['set_size_6'].copy().apply_baseline((-0.35, -0.05)).average()
+set_2 = set_epochs['set_size_2'].copy().apply_baseline((-0.20, 0.00)).average()
+set_4 = set_epochs['set_size_4'].copy().apply_baseline((-0.20, 0.00)).average()
+set_6 = set_epochs['set_size_6'].copy().apply_baseline((-0.20, 0.00)).average()
 
-channels = ['15', '16', '25',
-            '45', '46', '55']
-fig, ax = plt.subplots(1, 1, figsize=(16, 8))
-plot_compare_evokeds({'Set size 2': set_2,
-                      'Set size 4': set_4,
-                      'Set size 6': set_6,},
-                     picks=channels,
-                     combine='mean',
-                     ylim=dict(eeg=[-10, 10]),
-                     invert_y=True,
-                     title='Channels %s' % ', '.join(
-                         str(x) for x in channels),
-                     axes=ax,
-                     show=False)
+# channels to plot
+channels_right = ['39', '40', '46']
+channels_left = ['15', '16', '24']
+
+# make ERP figure
+plt.rcParams.update({'font.size': 14})
+fig_erp, ax = plt.subplots(2, 1, figsize=(15, 15))
+for n_roi, channels in enumerate([channels_right, channels_left]):
+    if int(channels[0]) < 32:
+        roi = 'Left'
+    else:
+        roi = 'Right'
+
+    plot_compare_evokeds({'Set size 2': set_2,
+                          'Set size 4': set_4,
+                          'Set size 6': set_6, },
+                         picks=channels,
+                         combine='mean',
+                         ylim=dict(eeg=[-10, 10]),
+                         invert_y=True,
+                         title='% s channels: %s' % (roi, ', '.join(
+                             str(ch) for ch in channels)),
+                         axes=ax[n_roi],
+                         show=False)
+fig_erp.subplots_adjust(hspace=0.5)
 plt.close('all')
+
+# # make topomap figure
+# plt.rcParams.update({'font.size': 14})
+# fig_topo, ax = plt.subplots(3, 9, figsize=(15, 15))
+# for n_set, set_size in enumerate([set_2, set_4, set_6]):
+#     set_size.plot_topomap(times=np.arange(0.1, 1.0, 0.1),
+#                           vmin=-10, vmax=10, axes=ax[n_set, :],
+#                           colorbar=False)
 
 # %%
 if report:
@@ -184,8 +205,12 @@ if report:
 
     bidsdata_report = open_report(FPATH_REPORT_I)
 
+    if 'epochs' in bidsdata_report.tags and overwrite:
+        bidsdata_report.remove(title='Set size ERPs')
+
     bidsdata_report.add_figure(
-        fig=fig,
+        fig=fig_erp,
+        tags='epochs',
         title='Set size ERPs',
         section='epochs',
         image_format='PNG'

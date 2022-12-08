@@ -405,11 +405,15 @@ if report:
 
     bidsdata_report = open_report(FPATH_REPORT_I)
 
+    if 'ica' in bidsdata_report.tags and overwrite:
+        bidsdata_report.remove(title='ICA cleaning')
+
     fig = ica.plot_components(show=False)
     plt.close('all')
 
     bidsdata_report.add_figure(
         fig=fig,
+        tags='ica',
         title='ICA cleaning',
         caption='Identified EOG components: %s' % ', '.join(
             str(x) for x in bad_components),

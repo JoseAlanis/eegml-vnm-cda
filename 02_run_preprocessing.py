@@ -3,7 +3,7 @@
 Preprocessing
 ==============
 
-Extracts relevant data and removes artefacts.
+Extracts relevant data and removes stereotypical artefacts.
 
 Authors: José C. García Alanis <alanis.jcg@gmail.com>
 

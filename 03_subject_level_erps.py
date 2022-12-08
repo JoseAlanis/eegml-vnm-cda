@@ -1,9 +1,9 @@
 """
-=============
-Preprocessing
-==============
+==========================
+Subject-level ERP analysis
+==========================
 
-Extracts relevant data and removes artefacts.
+Extracts condition specific segments, computes ERPs, and generates figures.
 
 Authors: José C. García Alanis <alanis.jcg@gmail.com>
 

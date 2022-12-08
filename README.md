@@ -70,7 +70,7 @@ File `02_run_preprocessing.py` takes the BIDS formatted data and runs a minimal 
 - Infomax ICA + standardised removal of artefact components (based on correlation with EOG component templates)
 
 File `03_subject_level_erps.py`
-- Segment data around set size markers (rejects epochs with amplitudes > 150 micro-volt)
+- Segment data around set size markers (rejects epochs with amplitudes > 200 micro-volt)
 - Make ERP figures
 
 Setting the argument `--report=True` will create a small html-report for the subject (see below).

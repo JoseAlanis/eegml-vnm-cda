@@ -66,7 +66,7 @@ done
 
 File `02_run_preprocessing.py` takes the BIDS formatted data and runs a minimal preprocessing pipeline.
 - Discard pauses between blocks and resting state.
-- Filter (0.1 - 40 Hz) + periodic notch filter (50 Hz, 100 Hz)
+- Filter (0.01 - 80 Hz) + periodic notch filter (50 Hz, 100 Hz)
 - Infomax ICA + standardised removal of artefact components (based on correlation with EOG component templates)
 
 File `03_subject_level_erps.py`

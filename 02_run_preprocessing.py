@@ -231,7 +231,7 @@ del raw_task_bl1, raw_task_bl2, raw_task_bl3, raw_task_bl4, raw_task_bl5
 
 # %%
 # apply filter to data
-raw_task = raw_task.filter(l_freq=0.1, h_freq=40.0,
+raw_task = raw_task.filter(l_freq=0.01, h_freq=80.0,
                            picks=['eeg', 'eog'],
                            filter_length='auto',
                            l_trans_bandwidth='auto',
